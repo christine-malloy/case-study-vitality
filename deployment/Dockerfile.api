@@ -3,17 +3,12 @@ FROM oven/bun:1 AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Copy only the API files
 COPY api/package.json api/bun.lock ./
+COPY api/index.ts api/server.ts api/db.ts ./
 
 # Install dependencies
 RUN bun install --frozen-lockfile
-
-# Copy source code
-COPY api/ .
-
-# Build the application
-RUN bun run build
 
 # Production stage
 FROM oven/bun:1-slim AS runner
@@ -22,16 +17,18 @@ WORKDIR /app
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=3001
 
 # Copy necessary files from builder
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/bun.lock .
-COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/server.ts .
+COPY --from=builder /app/index.ts .
+COPY --from=builder /app/db.ts .
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 3001
 
 # Start the application
-CMD ["bun", "run", "start"] 
+CMD ["bun", "run", "index.ts"] 

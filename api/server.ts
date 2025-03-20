@@ -1,35 +1,11 @@
 import { serve } from "bun";
+import sql from './db';
 
-const cars = [
-  {
-    id: 1,
-    make: "Toyota",
-    model: "Camry",
-    year: 2023,
-    color: "Silver",
-    price: 25000,
-  },
-  {
-    id: 2,
-    make: "Honda",
-    model: "Civic",
-    year: 2023,
-    color: "Blue",
-    price: 22000,
-  },
-  {
-    id: 3,
-    make: "Tesla",
-    model: "Model 3",
-    year: 2023,
-    color: "Red",
-    price: 45000,
-  },
-];
+const port = Number(process.env.PORT) || 3001;
 
 const server = serve({
-  port: 3001,
-  fetch(req) {
+  port,
+  async fetch(req) {
     const url = new URL(req.url);
     
     if (url.pathname === "/") {
@@ -43,9 +19,22 @@ const server = serve({
     }
 
     if (url.pathname === "/cars") {
-      return new Response(JSON.stringify(cars), {
-        headers: { "Content-Type": "application/json" },
-      });
+      try {
+        const cars = await sql`
+          SELECT * FROM cars
+          ORDER BY id ASC
+        `;
+        
+        return new Response(JSON.stringify(cars), {
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (error) {
+        console.error('Database error:', error);
+        return new Response(JSON.stringify({ error: "Failed to fetch cars" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
     }
 
     return new Response("Not Found", { status: 404 });
