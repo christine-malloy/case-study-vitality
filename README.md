@@ -86,7 +86,13 @@ We have unanswered questions around the following technical areas:
 - observability plan
 - soc2 compliancancy
 
-Below is a detailed review of considerations and solutions:
+Below is a summary of our case study, solutions forward, and an organized roadmap:
+
+[Current State Analysis](./current-state-analysis.md)
+[Proposed Solutions](./proposed-solutions.md)
+[Implementation RoadMap](./implementation-roadmap.md)
+
+For further detail, please review facets of focus:
 
 ### [Architecture Plan](./arch-plan.md)
 Details of the system architecture design and implementation plan.
