@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS cars (
 -- Insert some initial data
 INSERT INTO cars (make, model, year, color, price) VALUES
     ('Toyota', 'Camry', 2023, 'Silver', 25000.00),
-    ('Honda', 'Civic', 2023, 'Blue', 22000.00),
+    ('Honda', 'Civic', 2023, 'Blue', 22100.00),
     ('Tesla', 'Model 3', 2023, 'Red', 45000.00); 
