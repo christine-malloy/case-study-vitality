@@ -2,7 +2,7 @@ services:
   api:
     build:
       context: ..
-      dockerfile: deployment/Dockerfile.api
+      dockerfile: deployment/Dockerfile
     init: true
     ulimits:
       memlock:
@@ -14,13 +14,13 @@ services:
       - local.env
     depends_on:
       - postgres
+    volumes:
+      - ../api:/app/api
 
   postgres:
     image: postgres:16
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cars_db
+    env_file:
+      - local.env
     ports:
       - "5432:5432"
     volumes:

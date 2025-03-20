@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy only the API files
 COPY api/package.json api/bun.lock ./
-COPY api/index.ts api/server.ts api/db.ts ./
+COPY api/index.ts api/db.ts ./
 
 # Install dependencies
 RUN bun install --frozen-lockfile
@@ -23,9 +23,8 @@ ENV PORT=3001
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/bun.lock .
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/server.ts .
-COPY --from=builder /app/index.ts .
-COPY --from=builder /app/db.ts .
+COPY --from=builder /app/*.ts .
+COPY --from=builder /app/**/*.ts .
 
 # Expose the port
 EXPOSE 3001
