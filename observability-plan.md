@@ -1,0 +1,1 @@
+current tooling: Sentry/Supabase dashboard/Axiom/Posthog
