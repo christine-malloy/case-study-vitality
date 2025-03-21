@@ -2,6 +2,10 @@ locals {
   namespace = "vitality"
   stage     = "dev"
   name      = "app"
+  bastion = {
+    instance_type               = "t2.micro"
+    associate_public_ip_address = true
+  }
 
   primary_cidr_block = "10.0.0.0/16"
   ssh_key_path       = ".pem/vitality-bastion.pub"
@@ -25,6 +29,7 @@ module "vpc" {
   namespace = local.namespace
   stage     = local.stage
   name      = local.name
+  attributes = ["vpc"]
 
   ipv4_primary_cidr_block = local.primary_cidr_block
 
@@ -154,12 +159,12 @@ module "ec2_bastion" {
 
   enabled = module.this.enabled
 
-  instance_type               = "t2.micro"
+  instance_type               = local.bastion.instance_type
   security_groups             = [module.vpc.vpc_default_security_group_id]
   subnets                     = module.public_private_subnets.public_subnet_ids
   key_name                    = module.aws_key_pair.key_name
   vpc_id                      = module.vpc.vpc_id
-  associate_public_ip_address = true
+  associate_public_ip_address = local.bastion.associate_public_ip_address
 
   context = module.bastion_label.context
 }

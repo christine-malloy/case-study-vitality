@@ -1,4 +1,3 @@
-# IAM Role to be granted ECR permissions
 locals {
   namespace = "vitality"
   stage     = "dev"
