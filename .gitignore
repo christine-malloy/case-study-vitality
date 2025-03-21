@@ -1,3 +1,6 @@
 node_modules
 *.vscode
 *.next
+
+.terraform
+*.terraform.lock.hcl

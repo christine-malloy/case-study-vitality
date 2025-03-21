@@ -9,6 +9,7 @@ locals {
 module "vpc" {
   source = "cloudposse/vpc/aws"
 
+  context   = module.this.context
   namespace = local.namespace
   stage     = local.stage
   name      = local.name
@@ -21,6 +22,7 @@ module "vpc" {
 module "public_private_subnets" {
   source = "cloudposse/dynamic-subnets/aws"
 
+  context            = module.this.context
   namespace          = local.namespace
   stage              = local.stage
   name               = local.name
@@ -34,6 +36,7 @@ module "public_private_subnets" {
 module "private_only_subnets" {
   source = "cloudposse/dynamic-subnets/aws"
 
+  context            = module.this.context
   namespace          = local.namespace
   stage              = local.stage
   name               = local.name
@@ -43,3 +46,17 @@ module "private_only_subnets" {
   igw_id             = [module.vpc.igw_id]
   ipv4_cidr_block    = [cidrsubnet(local.primary_cidr_block, 4, 1)]
 }
+
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
+
+output "public_subnets_cidr_blocks" {
+  value = module.public_private_subnets.public_subnets_cidr_blocks
+}
+
+output "private_only_subnets_cidr_blocks" {
+  value = module.private_only_subnets.private_only_subnets_cidr_blocks
+}
+
+
