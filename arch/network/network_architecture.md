@@ -11,38 +11,38 @@ flowchart TB
     classDef component fill:#E3F2FD,stroke:#1976D2,stroke-width:1px
 
     %% Main VPC
-    vpc["VPC: vitality-dev-app-vpc\n(10.0.0.0/16)"]
+    vpc["VPC: vitality-dev-app-vpc<br>(10.0.0.0/16)"]
     
     %% Public/Private Subnets
     subgraph publicPrivateSubnets["Public/Private Subnets (us-east-1a, us-east-1b)"]
-        publicSubnetA["Public Subnet\nus-east-1a"]
-        publicSubnetB["Public Subnet\nus-east-1b"]
-        privateSubnetA["Private Subnet\nus-east-1a"]
-        privateSubnetB["Private Subnet\nus-east-1b"]
+        publicSubnetA["Public Subnet<br>us-east-1a"]
+        publicSubnetB["Public Subnet<br>us-east-1b"]
+        privateSubnetA["Private Subnet<br>us-east-1a"]
+        privateSubnetB["Private Subnet<br>us-east-1b"]
     end
     
     %% Private Only Subnets
     subgraph privateOnlySubnets["Private Only Subnets (us-east-1c, us-east-1d)"]
-        privateSubnetC["Private Subnet\nus-east-1c"]
-        privateSubnetD["Private Subnet\nus-east-1d"]
+        privateSubnetC["Private Subnet<br>us-east-1c"]
+        privateSubnetD["Private Subnet<br>us-east-1d"]
     end
     
     %% Security Groups
     subgraph sgPrimary["Primary Security Group"]
-        sgPrimarySsh["Ingress: SSH (Port 22)\nfrom 0.0.0.0/0"]
-        sgPrimaryHttp["Ingress: HTTP (Port 80)\nfrom self"]
+        sgPrimarySsh["Ingress: SSH (Port 22)<br>from 0.0.0.0/0"]
+        sgPrimaryHttp["Ingress: HTTP (Port 80)<br>from self"]
         sgPrimaryEgress["Egress: All Traffic"]
     end
     
     subgraph sgPostgres["Postgres Security Group"]
-        sgPostgresIngress["Ingress: PostgreSQL (Port 5432)\nfrom Primary SG"]
+        sgPostgresIngress["Ingress: PostgreSQL (Port 5432)<br>from Primary SG"]
         sgPostgresEgress["Egress: All Traffic"]
     end
     
     %% Other Components
-    bastion["Bastion Host\nt2.micro"]
+    bastion["Bastion Host<br>t2.micro"]
     igw["Internet Gateway"]
-    keyPair["SSH Key Pair\nvitality-dev-app-ssh-key"]
+    keyPair["SSH Key Pair<br>vitality-dev-app-ssh-key"]
     
     %% Connections
     igw --- vpc
