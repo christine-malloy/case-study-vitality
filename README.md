@@ -114,5 +114,3 @@ Roadmap for achieving SOC2 compliance for the application.
 
 ### [Observability Plan](./observability-plan.md)
 Implementation plan for monitoring, logging, and tracing solutions.
-
-
