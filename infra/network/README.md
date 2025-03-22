@@ -1,5 +1,7 @@
 # Vitality Network Infrastructure
 
+> **Architecture Documentation**: For detailed architecture information, see the [Network Architecture Documentation](../../arch/network/).
+
 This directory contains the Terraform configuration for deploying the AWS VPC and network components.
 
 ## Architecture

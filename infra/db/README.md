@@ -1,5 +1,7 @@
 # Vitality Database Infrastructure
 
+> **Architecture Documentation**: For detailed architecture information, see the [Database Architecture Documentation](../../arch/db/).
+
 This directory contains the Terraform configuration for deploying the Aurora PostgreSQL database on AWS.
 
 ## Architecture

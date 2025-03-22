@@ -1,5 +1,7 @@
 # Vitality Frontend Infrastructure
 
+> **Architecture Documentation**: For detailed architecture information, see the [Frontend Architecture Documentation](../../arch/frontend/).
+
 This directory contains the Terraform configuration for deploying the Next.js frontend application to AWS S3 and CloudFront with WAF protection.
 
 ## Architecture

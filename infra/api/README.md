@@ -1,5 +1,7 @@
 # Vitality API Infrastructure
 
+> **Architecture Documentation**: For detailed architecture information, see the [API Architecture Documentation](../../arch/api/).
+
 This directory contains the Terraform configuration for deploying the Bun.js API to AWS App Runner.
 
 ## Architecture

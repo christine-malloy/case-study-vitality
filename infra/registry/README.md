@@ -1,5 +1,7 @@
 # Vitality Container Registry Infrastructure
 
+> **Architecture Documentation**: For detailed architecture information, see the [Registry Architecture Documentation](../../arch/registry/).
+
 This directory contains the Terraform configuration for deploying the Amazon ECR registry for container images.
 
 ## Architecture
