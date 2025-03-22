@@ -1,0 +1,26 @@
+namespace = "vitality"
+stage     = "dev"
+name      = "frontend"
+attributes = ["app"]
+region    = "us-west-2"
+
+# CloudFront distribution price class
+# PriceClass_100: US, Canada, Europe
+# PriceClass_200: Above + South America, Australia, Japan, Singapore, HK, etc.
+# PriceClass_All: All CloudFront edge locations
+price_class = "PriceClass_100"
+
+# Origin IDs
+s3_origin_id  = "S3Origin"
+api_origin_id = "APIOrigin"
+
+# Custom service name (if different from default pattern)
+# api_service_name = "custom-api-service-name"
+
+# Additional tags
+tags = {
+  Project     = "Vitality"
+  Environment = "Development"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps"
+} 
