@@ -5,10 +5,11 @@
 ```mermaid
 flowchart TB
     %% Define styles
-    classDef vpc fill:#F7FBFF,stroke:#3F8624,stroke-width:2px
-    classDef subnet fill:#F1F8E9,stroke:#7CB342,stroke-width:1px
-    classDef securityGroup fill:#FFEBEE,stroke:#D32F2F,stroke-width:1px
-    classDef component fill:#E3F2FD,stroke:#1976D2,stroke-width:1px
+    classDef vpc fill:#F7FBFF,stroke:#3F8624,stroke-width:2px,color:#0A3200,font-weight:bold
+    classDef subnet fill:#F1F8E9,stroke:#7CB342,stroke-width:1px,color:#2E5014,font-weight:bold
+    classDef securityGroup fill:#FFEBEE,stroke:#D32F2F,stroke-width:1px,color:#7A0000,font-weight:bold
+    classDef component fill:#E3F2FD,stroke:#1976D2,stroke-width:1px,color:#0D47A1,font-weight:bold
+    classDef subgraphTitle color:#000000,font-weight:bold
 
     %% Main VPC
     vpc["VPC: vitality-dev-app-vpc<br>(10.0.0.0/16)"]
@@ -58,6 +59,7 @@ flowchart TB
     class publicPrivateSubnets,privateOnlySubnets,publicSubnetA,publicSubnetB,privateSubnetA,privateSubnetB,privateSubnetC,privateSubnetD subnet
     class sgPrimary,sgPostgres,sgPrimarySsh,sgPrimaryHttp,sgPrimaryEgress,sgPostgresIngress,sgPostgresEgress securityGroup
     class bastion,igw,keyPair component
+    class publicPrivateSubnets,privateOnlySubnets,sgPrimary,sgPostgres subgraphTitle
 ```
 
 ## Network Components
