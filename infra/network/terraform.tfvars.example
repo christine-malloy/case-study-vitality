@@ -1,0 +1,35 @@
+namespace = "vitality"
+stage     = "dev"
+name      = "app"
+region    = "us-west-2"
+
+# VPC configuration
+vpc_cidr = "10.0.0.0/16"
+azs      = ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+# Subnet configuration
+public_subnets   = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets  = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+database_subnets = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
+
+# NAT Gateway configuration
+enable_nat_gateway = true
+single_nat_gateway = true  # Set to false for production to have one NAT per AZ
+
+# DNS configuration
+enable_dns_hostnames = true
+enable_dns_support   = true
+
+# VPC Flow Logs (optional)
+enable_flow_log                      = true
+flow_log_destination_type            = "cloud-watch-logs"
+flow_log_traffic_type                = "ALL"
+flow_log_max_aggregation_interval    = 60
+
+# Additional tags
+tags = {
+  Project     = "Vitality"
+  Environment = "Development"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps"
+} 

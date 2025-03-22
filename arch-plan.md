@@ -1,85 +1,72 @@
-Designing an architecture diagram for your infrastructure, which includes components such as API, frontend, jobs, database (DB), network, and registry, involves illustrating how these elements interact within your system. Here's a structured approach to help you conceptualize this architecture:
+# Vitality Architecture - High Level Overview
 
-1. Core Components:
+## Architecture Components
 
-Frontend:
+The Vitality platform is built on a modern, secure, and scalable cloud-native architecture leveraging AWS services to provide a reliable foundation for our business operations.
 
-Represents the user interface of your application, typically encompassing web or mobile clients.
-Users interact directly with this layer to access application features.
-API:
+## Database Solution: Amazon Aurora PostgreSQL
 
-Serves as the intermediary between the frontend and backend services.
-Handles client requests, processes business logic, and communicates with other backend components.
-Jobs:
+Aurora PostgreSQL serves as our primary database solution, offering:
 
-Manages background tasks or scheduled operations, such as data processing, report generation, or maintenance tasks.
-Often implemented using job schedulers or queue systems to handle asynchronous processing.
-Database (DB):
+- **High Performance**: 3x throughput of standard PostgreSQL with minimal latency
+- **Reliability**: Six-way replication across three availability zones with automated backups
+- **Scalability**: Ability to scale compute and storage independently based on demand
+- **Cost Efficiency**: Pay-as-you-go pricing model with ability to scale down during low-usage periods
+- **Security**: Encryption at rest and in transit with granular access controls
 
-Stores and manages application data, ensuring persistence and consistency.
-Could be a relational database like PostgreSQL or MySQL, or a NoSQL database, depending on your requirements.
-Registry:
+Our current implementation uses a single writer node configuration with plans to add read replicas as the application scales.
 
-Maintains metadata about services, configurations, or container images.
-In microservices architectures, a service registry keeps track of service instances and their locations.
-In containerized environments, a container registry stores and distributes container images.
-Network:
+## Observability Platform: AWS CloudWatch
 
-Encompasses the communication pathways between all components.
-Includes load balancers, firewalls, and other networking infrastructure that facilitate secure and efficient data flow.
-2. Interaction Flow:
+AWS CloudWatch provides comprehensive monitoring and observability capabilities:
 
-User Interaction:
+- **Unified Monitoring**: Centralized visibility into all AWS resources, applications, and services
+- **Metrics Collection**: Automatic collection of key performance metrics across infrastructure
+- **Logging**: Aggregation and analysis of logs from all application components
+- **Alarms**: Proactive notifications based on predefined thresholds
+- **Dashboards**: Custom visualization of operational health and business metrics
+- **Tracing**: End-to-end request tracing for performance optimization
 
-Users access the application via the frontend.
-The frontend sends HTTP/HTTPS requests to the API to perform actions or retrieve data.
-API Processing:
+Our observability strategy includes detailed monitoring of API performance, database queries, and frontend user experience metrics.
 
-The API receives requests from the frontend, processes the necessary business logic, and interacts with the database to read or write data.
-For operations that are time-consuming or can be processed asynchronously, the API can delegate tasks to the jobs component.
-Background Jobs:
+## Security & Compliance: AWS Security Hub
 
-The jobs component handles tasks like data processing, sending emails, or generating reports without blocking the main application flow.
-It retrieves and updates data in the database as needed.
-Service Discovery (Registry):
+To support our upcoming SOC2 compliance efforts, AWS Security Hub provides:
 
-The registry keeps track of available services and their endpoints, facilitating dynamic service discovery and communication within the system.
-In containerized environments, it also manages container images used to deploy services.
-Networking:
+- **Compliance Checks**: Automated security checks against industry standards including SOC2
+- **Unified Security View**: Centralized dashboard for security findings across AWS accounts
+- **Automated Remediation**: Integration with AWS Config for automated remediation of non-compliant resources
+- **Continuous Assessment**: Ongoing evaluation of security posture with regular reporting
+- **Integration**: Connection to third-party security tools for comprehensive coverage
+- **Audit Trail**: Detailed logging of security events for compliance documentation
 
-The network infrastructure ensures secure and efficient communication between all components, managing data flow, load balancing, and security policies.
-3. Diagram Layout:
+Our security implementation includes least-privilege IAM policies, network isolation through VPC design, encryption of data at rest and in transit, and regular security assessments.
 
-Top Layer:
+## Implementation Resources
 
-Users: Represented as clients or browsers interacting with the frontend.
-Second Layer:
+### Infrastructure as Code (IaC)
 
-Frontend: Connected to users, showcasing the user interface components.
-Third Layer:
+Our infrastructure is managed entirely through Terraform, with configuration files organized by component:
 
-API: Positioned between the frontend and backend services, illustrating its role as the communication bridge.
-Fourth Layer:
+- **Network:** [infra/network/](./infra/network/) - VPC, subnets, and security groups
+- **Database:** [infra/db/](./infra/db/) - Aurora PostgreSQL cluster configuration
+- **Container Registry:** [infra/registry/](./infra/registry/) - Amazon ECR for Docker images
+- **API Service:** [infra/api/](./infra/api/) - AWS App Runner service for the backend
+- **Frontend:** [infra/frontend/](./infra/frontend/) - S3, CloudFront, and WAF for the web application
 
-Backend Services: Including the jobs component and database, demonstrating data processing and storage functionalities.
-Fifth Layer:
+### Architecture Documentation
 
-Registry: Displayed alongside backend services, indicating its role in service discovery and container management.
-Underlying Layer:
+Detailed architecture documents are available for each component:
 
-Network: Encompassing all components, highlighting the infrastructure that supports communication and data flow.
-4. Additional Considerations:
+- **Network Architecture:** [arch/network/](./arch/network/)
+- **Database Architecture:** [arch/db/](./arch/db/)
+- **Container Registry Architecture:** [arch/registry/](./arch/registry/)
+- **API Architecture:** [arch/api/](./arch/api/)
+- **Frontend Architecture:** [arch/frontend/](./arch/frontend/)
 
-Security:
+## Next Steps
 
-Implement authentication and authorization mechanisms to protect data and services.
-Scalability:
-
-Design components to scale horizontally or vertically based on demand.
-Monitoring and Logging:
-
-Incorporate monitoring tools to track performance and logging systems to capture and analyze system events.
-Fault Tolerance:
-
-Ensure the system can handle failures gracefully, with redundancies and failover mechanisms in place.
-By structuring your architecture diagram with these components and interactions, you can effectively visualize and communicate the design of your system, facilitating better understanding and collaboration among stakeholders.
+- Implement enhanced monitoring and alerting for production workloads
+- Deploy read replicas for the Aurora cluster to improve read scalability
+- Complete Security Hub integration and run initial compliance assessment
+- Establish regular security review cadence aligned with SOC2 requirements

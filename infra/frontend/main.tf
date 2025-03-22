@@ -11,12 +11,10 @@ locals {
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
-# Get App Runner service information
 data "aws_apprunner_service" "service" {
   service_name = local.api_service_name
 }
 
-# S3 bucket for frontend static assets
 module "s3_bucket" {
   source  = "cloudposse/s3-bucket/aws"
   version = "3.1.2"
@@ -37,12 +35,10 @@ module "s3_bucket" {
   tags     = var.tags
 }
 
-# Origin Access Identity for CloudFront
 resource "aws_cloudfront_origin_access_identity" "default" {
   comment = "Origin Access Identity for ${module.s3_bucket.bucket_id}"
 }
 
-# Policy for CloudFront to access S3
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
@@ -60,7 +56,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   policy = data.aws_iam_policy_document.s3_policy.json
 }
 
-# AWS WAF Web ACL
 module "waf" {
   source  = "cloudposse/waf/aws"
   version = "0.0.7"
@@ -114,19 +109,17 @@ module "waf" {
   tags     = var.tags
 }
 
-# CloudFront Distribution
 module "cloudfront" {
   source  = "cloudposse/cloudfront/aws"
   version = "0.14.0"
 
-  aliases             = []  # Add your custom domain here if needed
+  aliases             = [] 
   price_class         = var.price_class
   parent_zone_id      = null
   dns_alias_enabled   = false
   ipv6_enabled        = true
   minimum_protocol_version = "TLSv1.2_2021"
 
-  # S3 origin configuration
   origins = [
     {
       domain_name = module.s3_bucket.bucket_regional_domain_name
@@ -156,8 +149,7 @@ module "cloudfront" {
       origin_shield = null
     }
   ]
-
-  # Default cache behavior for the frontend static assets
+ 
   default_cache_behavior = {
     target_origin_id       = local.s3_origin_id
     viewer_protocol_policy = "redirect-to-https"
@@ -178,8 +170,7 @@ module "cloudfront" {
     max_ttl               = 31536000
     use_forwarded_values  = true
   }
-
-  # Cache behavior for the API
+ 
   ordered_cache = [
     {
       path_pattern           = "/api/*"
@@ -203,11 +194,9 @@ module "cloudfront" {
       use_forwarded_values  = true
     }
   ]
-
-  # Associate the WAF Web ACL with CloudFront
+ 
   web_acl_id = module.waf.web_acl_id
 
-  # Custom error responses
   custom_error_response = [
     {
       error_caching_min_ttl = 300

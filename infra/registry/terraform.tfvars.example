@@ -1,0 +1,21 @@
+namespace = "vitality"
+stage     = "dev"
+name      = "app"
+region    = "us-west-2"
+
+# ECR Repository configuration
+image_tag_mutability = "IMMUTABLE"  # Options: MUTABLE or IMMUTABLE
+scan_on_push         = true
+max_image_count      = 100
+protected_tags       = ["latest", "production", "stable"]
+
+# Lifecycle policy configuration
+untagged_image_expiration_days = 14
+
+# Additional tags
+tags = {
+  Project     = "Vitality"
+  Environment = "Development"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps"
+} 

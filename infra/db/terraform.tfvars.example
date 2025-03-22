@@ -1,0 +1,30 @@
+namespace = "vitality"
+stage     = "dev"
+name      = "postgres"
+region    = "us-west-2"
+
+# VPC configuration - these will need to be updated with actual values
+vpc_id     = "vpc-0123456789abcdef0"
+subnet_ids = ["subnet-0123456789abcdef0", "subnet-0123456789abcdef1", "subnet-0123456789abcdef2"]
+
+# Database configuration
+instance_type      = "db.r6g.large"
+engine_version     = "13.9"
+db_name            = "vitality"
+db_admin_user      = "postgres"
+db_admin_password  = "change_this_in_production" # Only for example, use secure method in production
+deletion_protection = true
+
+# Optional configuration
+backup_retention_period = 7
+preferred_backup_window = "02:00-03:00"
+preferred_maintenance_window = "sun:04:00-sun:05:00"
+auto_minor_version_upgrade = true
+
+# Additional tags
+tags = {
+  Project     = "Vitality"
+  Environment = "Development"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps"
+} 
