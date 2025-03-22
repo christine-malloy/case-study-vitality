@@ -88,9 +88,9 @@ We have unanswered questions around the following technical areas:
 
 Below is a summary of our case study, solutions forward, and an organized roadmap:
 
-[Current State Analysis](./current-state-analysis.md)
-[Proposed Solutions](./proposed-solutions.md)
-[Implementation RoadMap](./implementation-roadmap.md)
+- [Current State Analysis](./current-state-analysis.md)
+- [Proposed Solutions](./proposed-solutions.md)
+- [Implementation RoadMap](./implementation-roadmap.md)
 
 For further detail, please review facets of focus:
 
