@@ -1,5 +1,7 @@
 # Vitality Frontend Architecture
 
+> **Summary**: A concise overview of this architecture is available in the [Frontend Architecture Summary](./frontend_summary.md).
+
 ## Overview
 
 The Vitality frontend is a Next.js application deployed as a static site on AWS S3, distributed through CloudFront with WAF protection. This architecture provides high availability, global distribution, and protection against common web vulnerabilities.

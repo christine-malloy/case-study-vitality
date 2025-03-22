@@ -11,7 +11,7 @@ The Vitality frontend is a modern Next.js application deployed to AWS using a se
 - **Origin Access Identity**: Secure access control between CloudFront and S3
 
 ## Diagram Reference
-For a detailed architecture diagram, see [frontend_architecture.md](frontend_architecture.md).
+For a detailed architecture diagram and complete documentation, see the [Frontend Architecture Documentation](./).
 
 ## Benefits
 - **High Performance**: Global content delivery with CloudFront edge locations

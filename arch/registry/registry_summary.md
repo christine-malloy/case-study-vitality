@@ -15,7 +15,7 @@ The Vitality project uses Amazon Elastic Container Registry (ECR) to store and m
 
 ## Diagram
 
-For a detailed diagram and comprehensive documentation of the registry infrastructure, see [registry_architecture.md](./registry_architecture.md).
+For a detailed diagram and comprehensive documentation of the registry infrastructure, see the [Registry Architecture Documentation](./).
 
 ## Benefits
 

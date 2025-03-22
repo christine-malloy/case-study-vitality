@@ -1,5 +1,7 @@
 # Vitality Database Architecture
 
+> **Summary**: A concise overview of this architecture is available in the [Database Architecture Summary](./db_summary.md).
+
 ## Database Diagram
 
 ```mermaid

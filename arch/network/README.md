@@ -1,5 +1,7 @@
 # Vitality Network Architecture
 
+> **Summary**: A concise overview of this architecture is available in the [Network Architecture Summary](./network_summary.md).
+
 ## Network Diagram
 
 ```mermaid

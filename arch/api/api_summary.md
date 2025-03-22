@@ -11,7 +11,7 @@ The Vitality API is deployed using AWS App Runner, a fully managed container ser
 - **Environment Variables**: Securely provide database credentials and configuration
 
 ## Diagram Reference
-For a detailed architecture diagram, see [api_architecture.md](api_architecture.md).
+For a detailed architecture diagram and complete documentation, see the [API Architecture Documentation](./).
 
 ## Benefits
 - **Simplified Operations**: No need to manage servers or container orchestration

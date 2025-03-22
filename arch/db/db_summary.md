@@ -15,7 +15,7 @@ The Vitality project uses Amazon Aurora PostgreSQL for its database needs. This 
 
 ## Diagram
 
-For a detailed diagram and comprehensive documentation of the database infrastructure, see [db_architecture.md](./db_architecture.md).
+For a detailed diagram and comprehensive documentation of the database infrastructure, see the [Database Architecture Documentation](./).
 
 ## Benefits
 

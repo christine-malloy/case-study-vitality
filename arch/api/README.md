@@ -1,5 +1,7 @@
 # Vitality API Architecture
 
+> **Summary**: A concise overview of this architecture is available in the [API Architecture Summary](./api_summary.md).
+
 ## Overview
 
 The Vitality API is deployed as an AWS App Runner service, providing a serverless, scalable solution for the application's backend. The service connects to a PostgreSQL database (Amazon Aurora) for data persistence and is integrated with the project's VPC for security and resource isolation.

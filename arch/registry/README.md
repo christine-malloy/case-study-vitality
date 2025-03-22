@@ -1,5 +1,7 @@
 # Vitality Registry Architecture
 
+> **Summary**: A concise overview of this architecture is available in the [Registry Architecture Summary](./registry_summary.md).
+
 ## Registry Diagram
 
 ```mermaid

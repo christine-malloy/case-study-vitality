@@ -21,7 +21,7 @@ The Vitality network architecture is designed to provide a secure, scalable, and
 
 ## Diagram
 
-For a detailed UML diagram and comprehensive documentation of the network infrastructure, see [network/network_architecture.md](network/network_architecture.md).
+For a detailed UML diagram and comprehensive documentation of the network infrastructure, see the [Network Architecture Documentation](./).
 
 ## Benefits
 
