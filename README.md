@@ -5,7 +5,6 @@ This project contains a full-stack application with a Bun backend and a frontend
 ## Prerequisites
 
 - Docker and Docker Compose
-- Bun runtime
 - Node.js (for frontend development)
 
 ## Available Scripts
