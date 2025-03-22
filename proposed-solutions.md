@@ -83,7 +83,7 @@ Observability is a top priority for IT organizations, especially with our challe
 - Leverage AWS CloudWatch as our primary observability platform, with custom dashboards for key metrics
 - Set up automated alerts for memory usage spikes and database connection issues
 - Integrate distributed tracing to identify bottlenecks and performance issues in real-time
-## Rollback Strategies
+## [Rollback Strategies](./rollback-plan.md)
 - Ensure atomic deployments with automated rollbacks on failure.
 - Use feature flags to toggle features without redeploying.
 - Build CI/CD pipelines with testing gates and microservice coordination.
