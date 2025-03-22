@@ -61,42 +61,42 @@ On the other hand, GCP stands out as a worthy runner-up, particularly for its st
 In short, AWS takes the lead with its security prowess and Aurora’s capabilities, while GCP remains a compelling option for its startup appeal and Cloud Spanner’s strengths.
 
 ## Overhaul of the local dev environment
+
 Currently, our developers rely on a shared database instance, which often causes data inconsistencies and slows down development. This setup also complicates testing and acceptance processes. To address this, we’ll implement a solution that replicates the full environment—API and database—locally. Developers can make API calls to this local setup, connect it to a local frontend instance, and run an integration test suite to perform end-to-end testing on a complete system. Since it operates locally, this approach speeds up feedback loops, enabling quicker bug fixes and feature development. It also allows developers to create and test new schemas independently, without disrupting the rest of the team. They can even run pen and load tests locally, to facilitate security compliance and performance optimization.
 
 ## Implement robust and proactive observability
+
 Observability is a top priority for IT organizations, especially with our challenges involving memory leaks and database connections. Creating a unified "Single Pane of Glass" view to monitor critical pain points is one of the most impactful steps we can take. To achieve this, we’ll deploy OpenTelemetry (OTEL) across backend and frontend services to establish a consistent logging framework. We’ll ensure logs are structured and assigned appropriate levels for effective filtering. Traces will be activated and linked to logs, enabling us to track, measure, and correlate executions with specific endpoints. Custom metrics will be set up to monitor functions that load large objects into memory, helping us detect and manage potential memory leaks. Similarly, we’ll track database connections with custom metrics, measuring open connections and their percentage of capacity. Finally, we’ll configure alarms to flag these issues and, ideally, trigger automated remediation to address them promptly.  
 
-## Memory Leaks
-- Investigate application code with profiling tools to pinpoint leaks.
-- Adjust container memory limits if containerized, or optimize bare-metal configs.
-- Monitor memory usage with alerts for anomalies.
-## Observability
-- Implement structured logging across services for consistency.
-- Add distributed tracing to track request flows and bottlenecks.
-- Collect key metrics (e.g., memory, database connections) and build real-time dashboards.
-- Set up alerts to catch issues before they’re reported.
-## Database Management
+## [Database Management](./db-connection-issues.md)
 - Evaluate alternatives like AWS RDS Aurora or Azure SQL for better reliability and scalability than Supabase.
 - Use connection pooling (e.g., PgBouncer) to manage connections efficiently.
 - Optimize queries to reduce load and prevent drops.
+- Prioritize zero downtime migrations
+## [Memory Leaks](./memory-leak-issues.md)
+- Investigate application code with profiling tools to pinpoint leaks.
+- Adjust container memory limits if containerized, or optimize bare-metal configs.
+- Monitor memory usage with alerts for anomalies.
+## [Observability](./observability-plan.md)
+- Implement a Single Pane of Glass approach for comprehensive visibility across all systems
+- Deploy OpenTelemetry (OTEL) for unified logging, tracing, and metrics collection
+- Leverage AWS CloudWatch as our primary observability platform, with custom dashboards for key metrics
+- Set up automated alerts for memory usage spikes and database connection issues
+- Integrate distributed tracing to identify bottlenecks and performance issues in real-time
 ## Rollback Strategies
 - Ensure atomic deployments with automated rollbacks on failure.
 - Use feature flags to toggle features without redeploying.
 - Build CI/CD pipelines with testing gates and microservice coordination.
-## Kubernetes
+## [Compute Solution](./compute-solution-plan.md)
 - Assess scaling needs (concurrent users, microservices count). For now, simpler tools like AWS ECS or Azure - Container Apps may suffice.
 - Revisit Kubernetes if managing 10+ microservices or needing multi-region deployments.
-## Zero-Downtime Migrations
-- Adopt blue-green deployments or canary releases.
-- Ensure backward-compatible database migrations, tested in production-like staging.
-- Break long migrations into smaller, incremental steps.
-## Shared Dev Database
+## [Local Devevelop](./local-dev-stack.md)
 - Provide each developer an isolated database via Docker Compose with Postgres.
 - Use migration tools (e.g., Flyway, Liquibase) to sync schemas locally.
-## SOC2 Compliance
+## [SOC2 Compliance](./soc2-compliance-plan.md)
 - Implement controls: access restrictions, audit logs, regular security assessments.
 - Automate remediation tasks and surface compliance metrics to developers.
 - Document processes for audits.
-## Architecture Diagram
+## [Architecture Diagram](./arch-plan.md)
 - Map current setup: Vercel (Next.js frontend), Railway (Bun servers, TRPC API, Redis, Zero sync), Supabase (Postgres, auth).
 - Propose enhancements like a more reliable DB provider and optimized service interactions.
