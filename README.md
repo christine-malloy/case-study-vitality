@@ -1,12 +1,79 @@
 # Case Study: Vitality
 
-This project contains a full-stack application with a Bun backend and a frontend application.
+This project contains a full-stack application with a Bun backend and a Next.js frontend application deployed on AWS infrastructure.
 
 ## Prerequisites
 
 - [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/)
 - [Node.js](https://nodejs.org/) (for frontend development)
-- [Terraform](https://www.terraform.io/downloads)
+- [Bun](https://bun.sh/) (for API development)
+- [Terraform](https://www.terraform.io/downloads) (for infrastructure management)
+- [AWS CLI](https://aws.amazon.com/cli/) (configured with appropriate credentials)
+
+## Project Structure
+
+### Application Code
+- [`/api`](./api/) - Bun.js backend API server
+- [`/frontend`](./frontend/) - Next.js frontend application
+
+### Infrastructure
+- [`/infra`](./infra/) - Infrastructure as code (Terraform)
+  - [`/infra/api`](./infra/api/) - API App Runner service configuration
+  - [`/infra/db`](./infra/db/) - Aurora PostgreSQL database configuration
+  - [`/infra/network`](./infra/network/) - VPC, subnets, and security groups
+  - [`/infra/registry`](./infra/registry/) - ECR container registry configuration
+  - [`/infra/frontend`](./infra/frontend/) - S3, CloudFront, and WAF configuration
+
+### Architecture Documentation
+- [`/arch`](./arch/) - Architecture documentation
+  - [`/arch/api`](./arch/api/) - API architecture documentation
+  - [`/arch/db`](./arch/db/) - Database architecture documentation
+  - [`/arch/frontend`](./arch/frontend/) - Frontend architecture documentation
+  - [`/arch/network`](./arch/network/) - Network architecture documentation
+  - [`/arch/registry`](./arch/registry/) - Container registry architecture documentation
+
+### Overall Architecture Plan
+- [`/arch-plan.md`](./arch-plan.md) - High-level architecture overview focusing on Aurora, CloudWatch, and Security Hub
+
+### Local Development Setup
+
+For local development, you can use Docker Compose to run the API and database:
+
+```bash
+cd ./deployment
+docker-compose up -d
+```
+
+The API will be available at http://localhost:3001
+
+Alternatively, you can use the provided scripts:
+
+1. Start the backend:
+   ```bash
+   ./scripts/backend.sh
+   ```
+2. In a separate terminal, start the frontend:
+   ```bash
+   ./scripts/frontend.sh
+   ```
+
+## Running Tests
+
+Running the test suite is a critical part of the development workflow. The project includes comprehensive tests to verify functionality and catch regressions.
+
+### Integration Tests
+
+To run the integration tests:
+
+```bash
+./scripts/test.sh
+```
+
+This script:
+1. Starts the necessary services using Docker Compose
+2. Waits for the server to become available
+3. Runs the integration test suite against the running services
+4. Cleans up by stopping the containers after tests complete
 
 ## Available Scripts
 
@@ -42,49 +109,98 @@ This script:
 - Runs the integration tests
 - Cleans up by stopping the containers after tests complete
 
-## Project Structure
+### Building and Pushing API Container
 
-- `/api` - Backend API server
-- `/frontend` - Frontend application
-- `/deployment` - Docker Compose configuration
-- `/scripts` - Utility scripts for development
-
-## Getting Started
-
-1. Clone the repository
-2. Make the scripts executable:
-   ```bash
-   chmod +x scripts/*.sh
-   ```
-3. Start the backend:
-   ```bash
-   ./scripts/backend.sh
-   ```
-4. In a separate terminal, start the frontend:
-   ```bash
-   ./scripts/frontend.sh
-   ```
-
-## Running Tests
-
-To run the integration tests:
 ```bash
-./scripts/test.sh
+./api/build_and_push.sh
 ```
+This script:
+- Builds the API Docker container
+- Tags it appropriately
+- Pushes it to the ECR repository
 
-This will start the necessary services, run the tests, and clean up afterward.
+## Deployment
 
-## Case Study
+### Infrastructure Deployment
 
+To deploy the infrastructure components:
+
+1. Navigate to the desired infrastructure directory:
+   ```bash
+   cd infra/network
+   ```
+
+2. Initialize Terraform:
+   ```bash
+   terraform init
+   ```
+
+3. Apply the configuration:
+   ```bash
+   terraform apply
+   ```
+
+4. Repeat for each infrastructure component in the following order:
+   - network
+   - db
+   - registry
+   - api
+   - frontend
+
+### Frontend Deployment
+
+After the infrastructure is deployed:
+
+1. Build the frontend application:
+   ```bash
+   cd frontend
+   bun run build
+   ```
+
+2. Deploy to S3 using the deployment script:
+   ```bash
+   cd infra/frontend
+   ./deploy.sh
+   ```
+
+### API Deployment
+
+1. Build and push the API container:
+   ```bash
+   cd api
+   ./build_and_push.sh
+   ```
+
+2. The App Runner service will automatically deploy the latest container image.
+
+## Architecture Overview
+
+For a high-level overview of the system architecture, see the [Architecture Plan](./arch-plan.md).
+
+Detailed architecture documentation is available for each component:
+
+- [API Architecture](./arch/api/)
+- [Database Architecture](./arch/db/)
+- [Frontend Architecture](./arch/frontend/)
+- [Network Architecture](./arch/network/)
+- [Registry Architecture](./arch/registry/)
+
+## Case Study Focus Areas
 Our problem case states the following issues with the system:
-- database connection issues
-- server memory leaks
+- **Database Connection Issues**: How can we resolve persistent connection pool exhaustion and dropped connections?
+- **Server Memory Leaks**: What's causing the gradual memory consumption increase that requires frequent server restarts?
 
 We have unanswered questions around the following technical areas:
-- cloud architecture plan
-- clustering solution
-- observability plan
-- soc2 compliancancy
+- **Clustering solution**: How can we effectively distribute workloads across multiple servers?
+- **Observability plan**: How should we implement comprehensive monitoring and logging?
+- **Soc2 compliancancy**: What security and privacy controls are needed for customer data protection?
+- **Cloud strategy**: What is the best approach for leveraging cloud services and infrastructure?
+
+Our proposed solution is:
+- **Cloud Architecture Plan**: Comprehensive AWS-based architecture with App Runner, Aurora, and CloudFront
+- **Compute and Data Solution**: Aurora PostgreSQL for database clustering and App Runner for application scaling
+- **Observability Plan**: CloudWatch for metrics, logs, and alarms
+- **SOC2 Compliance**: Security Hub for compliance monitoring and reporting
 
 Below is a summary of our case study, solutions forward, and an organized roadmap:
 
