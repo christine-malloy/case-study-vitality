@@ -106,7 +106,7 @@ Analysis and resolution of memory leak issues in the application.
 ### [Local Development Stack](./local-dev-stack.md)
 Guide for setting up and using the local development environment.
 
-### [Clustering Solution Plan](./compute-solution-plan.md)
+### [Compute Solution Plan](./compute-solution-plan.md)
 Strategy for implementing clustering to improve scalability and reliability.
 
 ### [SOC2 Compliance Plan](./soc2-compliance-plan.md)
