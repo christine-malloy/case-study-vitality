@@ -11,54 +11,59 @@ flowchart TB
     classDef component fill:#E3F2FD,stroke:#1976D2,stroke-width:1px,color:#0D47A1,font-weight:bold
     classDef subgraphTitle color:#000000,font-weight:bold
 
-    %% Main VPC
-    vpc["VPC: vitality-dev-app-vpc<br>(10.0.0.0/16)"]
-    
-    %% Public/Private Subnets
-    subgraph publicPrivateSubnets["Public/Private Subnets (us-east-1a, us-east-1b)"]
-        publicSubnetA["Public Subnet<br>us-east-1a"]
-        publicSubnetB["Public Subnet<br>us-east-1b"]
-        privateSubnetA["Private Subnet<br>us-east-1a"]
-        privateSubnetB["Private Subnet<br>us-east-1b"]
+    %% Main VPC with all components inside
+    subgraph vpc["VPC: vitality-dev-app-vpc (10.0.0.0/16)"]
+        %% Public/Private Subnets
+        subgraph publicPrivateSubnets["Public/Private Subnets (us-east-1a, us-east-1b)"]
+            publicSubnetA["Public Subnet<br>us-east-1a"]
+            publicSubnetB["Public Subnet<br>us-east-1b"]
+            privateSubnetA["Private Subnet<br>us-east-1a"]
+            privateSubnetB["Private Subnet<br>us-east-1b"]
+        end
+        
+        %% Private Only Subnets
+        subgraph privateOnlySubnets["Private Only Subnets (us-east-1c, us-east-1d)"]
+            privateSubnetC["Private Subnet<br>us-east-1c"]
+            privateSubnetD["Private Subnet<br>us-east-1d"]
+        end
+        
+        %% Security Groups - Now clearly inside the VPC
+        subgraph sgPrimary["Primary Security Group"]
+            sgPrimarySsh["Ingress: SSH (Port 22)<br>from 0.0.0.0/0"]
+            sgPrimaryHttp["Ingress: HTTP (Port 80)<br>from self"]
+            sgPrimaryEgress["Egress: All Traffic"]
+        end
+        
+        subgraph sgPostgres["Postgres Security Group"]
+            sgPostgresIngress["Ingress: PostgreSQL (Port 5432)<br>from Primary SG"]
+            sgPostgresEgress["Egress: All Traffic"]
+        end
+        
+        %% Bastion Host
+        bastion["Bastion Host<br>t2.micro"]
+        
+        %% VPC Label to show this is a VPC resource
+        vpcLabel["VPC-scoped<br>Security Groups"]
     end
     
-    %% Private Only Subnets
-    subgraph privateOnlySubnets["Private Only Subnets (us-east-1c, us-east-1d)"]
-        privateSubnetC["Private Subnet<br>us-east-1c"]
-        privateSubnetD["Private Subnet<br>us-east-1d"]
-    end
-    
-    %% Security Groups
-    subgraph sgPrimary["Primary Security Group"]
-        sgPrimarySsh["Ingress: SSH (Port 22)<br>from 0.0.0.0/0"]
-        sgPrimaryHttp["Ingress: HTTP (Port 80)<br>from self"]
-        sgPrimaryEgress["Egress: All Traffic"]
-    end
-    
-    subgraph sgPostgres["Postgres Security Group"]
-        sgPostgresIngress["Ingress: PostgreSQL (Port 5432)<br>from Primary SG"]
-        sgPostgresEgress["Egress: All Traffic"]
-    end
-    
-    %% Other Components
-    bastion["Bastion Host<br>t2.micro"]
+    %% External components
     igw["Internet Gateway"]
     keyPair["SSH Key Pair<br>vitality-dev-app-ssh-key"]
     
     %% Connections
     igw --- vpc
-    vpc --- publicPrivateSubnets
-    vpc --- privateOnlySubnets
     publicSubnetA --- bastion
     bastion --- sgPrimary
     sgPrimary --- sgPostgres
     bastion --- keyPair
+    vpcLabel --- sgPrimary
+    vpcLabel --- sgPostgres
     
     %% Apply Classes
     class vpc vpc
     class publicPrivateSubnets,privateOnlySubnets,publicSubnetA,publicSubnetB,privateSubnetA,privateSubnetB,privateSubnetC,privateSubnetD subnet
     class sgPrimary,sgPostgres,sgPrimarySsh,sgPrimaryHttp,sgPrimaryEgress,sgPostgresIngress,sgPostgresEgress securityGroup
-    class bastion,igw,keyPair component
+    class bastion,igw,keyPair,vpcLabel component
     class publicPrivateSubnets,privateOnlySubnets,sgPrimary,sgPostgres subgraphTitle
 ```
 
@@ -73,6 +78,15 @@ flowchart TB
 | Postgres Security Group | Security group for PostgreSQL access | Ingress: PostgreSQL (5432) from Primary SG<br>Egress: All traffic |
 | Bastion Host | Jump server for secure access to private resources | Instance Type: t2.micro<br>Location: Public Subnet |
 | SSH Key Pair | Key pair for secure SSH access | Generated from local file or created by Terraform |
+
+## Security Group Scope
+
+Security groups in AWS are **VPC-level resources**. This means:
+
+1. They are created and exist within the context of a specific VPC
+2. They can be attached to resources within that VPC only
+3. They can reference other security groups only within the same VPC
+4. Rules can control traffic entering and leaving resources regardless of subnet
 
 ## Network Design Principles
 

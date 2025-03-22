@@ -67,7 +67,6 @@ module "private_only_subnets" {
 
   context = module.vitality.context
 }
-
 module "sg_primary" {
   source = "cloudposse/security-group/aws"
 
@@ -154,6 +153,7 @@ module "bastion_label" {
   context = module.vitality.context
 }
 
+# let's us shell into the VPC
 module "ec2_bastion" {
   source = "cloudposse/ec2-bastion-server/aws"
 
