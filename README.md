@@ -4,8 +4,9 @@ This project contains a full-stack application with a Bun backend and a frontend
 
 ## Prerequisites
 
-- Docker and Docker Compose
-- Node.js (for frontend development)
+- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) (for frontend development)
+- [Terraform](https://www.terraform.io/downloads)
 
 ## Available Scripts
 
